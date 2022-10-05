@@ -1,4 +1,4 @@
-[] set up test judge
-[] basic server for only a single question
+[done] set up test judge
+[done] basic server for only a single question
 [] basic frontend
 [] database for questions, write functionality for questions
