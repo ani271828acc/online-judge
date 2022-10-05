@@ -1,6 +1,7 @@
 const http = require(`http`);
 const fs = require('fs');
 const qs = require('querystring');
+const {validate} = require(__dirname+'\\validator');
 const host = 'localhost';
 const port = 8080;
 
@@ -8,7 +9,7 @@ const requestListener = (req,res)=>{
     if(req.url == '/') {
         res.setHeader("Content-Type","text/html");
         res.writeHead(200);
-        fs.readFile(__dirname + '\\question.html', (err,questionPage)=>{
+        fs.readFile(__dirname + '\\..\\' + 'views\\question.html', (err,questionPage)=>{
             if(err) throw err;
             res.end(questionPage);
         });
@@ -22,8 +23,11 @@ const requestListener = (req,res)=>{
             });
             req.on('end',()=>{
                 let obj = qs.parse(body);
-                console.log(obj);
-                res.end("submitted");
+                let file = 'recieved_code.' + obj.language;
+                let code = obj.code;
+                validate(file, code, (result)=>{
+                    res.end(result);
+                });
             });
         }
     } else {
